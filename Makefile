@@ -5,6 +5,10 @@ CONTAINER_IMAGE := dcm-placement-api
 CONTAINER_TAG := latest
 COMPOSE_FILE := $(realpath deploy/podman/compose.yaml)
 
+COMPOSE ?= $(shell command -v podman-compose >/dev/null 2>&1 && echo podman-compose || \
+	(command -v docker-compose >/dev/null 2>&1 && echo docker-compose || \
+	(echo "docker compose")))
+
 # Build the application
 build:
 	go build -o bin/dcm-placement-api ./cmd/dcm-placement-api
@@ -27,15 +31,15 @@ clean:
 
 # Build container image
 container-build:
-	podman build -t $(CONTAINER_IMAGE):$(CONTAINER_TAG) .
+	$(COMPOSE) build -t $(CONTAINER_IMAGE):$(CONTAINER_TAG) .
 
 # Run compose up
 compose-up:
-	podman-compose -f $(COMPOSE_FILE) up -d
+	$(COMPOSE) -f $(COMPOSE_FILE) up -d
 
 # Run compose down
 compose-down:
-	podman-compose -f $(COMPOSE_FILE) down
+	$(COMPOSE) -f $(COMPOSE_FILE) down
 
 # Format code
 fmt:
