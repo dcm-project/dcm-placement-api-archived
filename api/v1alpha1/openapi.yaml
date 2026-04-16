@@ -237,10 +237,6 @@ components:
 
     Health:
       type: object
-      x-aep-resource:
-        singular: health
-        plural: healths
-        singleton: true
       properties:
         status:
           type: string
