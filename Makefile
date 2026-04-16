@@ -57,16 +57,9 @@ dev: build
 	./bin/dcm-placement-api
 
 ##################### "make generate" support start ##########################
-MOQ := $(GOBIN)/moq
-
-# Install moq if not already present
-$(MOQ):
-	@echo "📦 Installing moq..."
-	@go install github.com/matryer/moq@latest
-	@echo "✅ 'moq' installed successfully."
 
 # Code generation
-generate: $(MOQ)
+generate:
 	@echo "⚙️ Running go generate..."
 	@PATH="$(GOBIN):$$PATH" go generate -v $(shell go list ./...)
 	@echo "⚙️ Running mockgen script..."
