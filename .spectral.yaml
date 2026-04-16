@@ -1,12 +1,17 @@
 extends:
   - https://raw.githubusercontent.com/aep-dev/aep-openapi-linter/main/spectral.yaml
 
-# Disable AEP collection/pagination rules since /health is not a collection endpoint
-# Note: /applications already implements pagination correctly, so disabling these
-# linter rules won't affect its proper behavior
-rules:
-  aep-158-max-page-size-parameter: off
-  aep-158-page-token-parameter: off
-  aep-132-operation-id: warn
-  aep-158-response-array-property: off
-  aep-158-response-next-page-token-property: off
+# Override AEP rules only for /health endpoint (non-resource health check)
+# This ensures collection endpoints like /applications are still validated
+overrides:
+  - files:
+      - "**#/paths/~1health"
+    rules:
+      aep-158-max-page-size-parameter: off
+      aep-158-page-token-parameter: off
+      aep-132-operation-id: off
+  - files:
+      - "**#/components/schemas/Health"
+    rules:
+      aep-158-response-array-property: off
+      aep-158-response-next-page-token-property: off
