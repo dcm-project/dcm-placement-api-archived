@@ -1,3 +1,7 @@
+# ⚠️ Archived
+
+This repository has been archived.
+
 # VM Placement Service
 
 VM Placement Service API for optimizing virtual machine placement across infrastructure.
